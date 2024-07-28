@@ -115,9 +115,19 @@ app.get("/updateArtical", (req, res) => {
     );
 });
 
-app.get("/delete", (req, res) => {
-    db.run(`delete from articals where id=8`);
-    res.send("hello world");
+app.get("/delete/id:id", (req, res) => {
+    let id = req.params.id;
+
+    db.run(`delete from articals where id=${id}`, (err) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                message: "we could not delete it now please try it later",
+            });
+        } else {
+            res.json({ message: "ok" });
+        }
+    });
 });
 
 app.listen(port, () => {
